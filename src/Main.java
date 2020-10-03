@@ -114,11 +114,140 @@ public class Main {
     }
 
     static void doMachine(char[][] field, Random random){
-        int x,y;
+        int x=0,y=0;
+        int maxLine=0;
+        int maxColumn=0;
+        int maxDiagonal=0;
+        int maxPobochDiagonal=0;
+        int amountOfSigns=0;
+        int numberOfPlaceLine=0;
+        int numberOfPlaceColumn=0;
+        int anySign=0;
+
+        for(int i=0; i<field.length;i++){
+            for(int j=0; j<field.length;j++){
+                if(field[i][j]=='X'){
+                    amountOfSigns++;
+                }
+                if(field[i][j] != '-'){
+                    anySign++;
+                }
+            }
+            if(amountOfSigns>maxLine && anySign!=field.length){
+                maxLine=amountOfSigns;
+                numberOfPlaceLine=i;
+            }
+            amountOfSigns=0;
+            anySign=0;
+        }
+        amountOfSigns=0;
+        anySign=0;
+        System.out.println("maxLine"+maxLine);
+
+        for(int i=0; i<field.length;i++){
+            for(int j=0; j<field.length;j++){
+                if(field[j][i]=='X'){
+                    amountOfSigns++;
+                }
+                if(field[j][i] != '-'){
+                    anySign++;
+                }
+            }
+            if(amountOfSigns>maxColumn && anySign!=field.length){
+                maxColumn=amountOfSigns;
+                numberOfPlaceColumn=i;
+            }
+            amountOfSigns=0;
+            anySign=0;
+        }
+        System.out.println("maxColumn"+maxColumn);
+        amountOfSigns=0;
+        anySign=0;
+        for(int i=0; i<field.length;i++){
+            for(int j=0; j<field.length;j++){
+                if(i==j && field[i][j]=='X'){
+                    amountOfSigns++;
+                }
+                if(field[i][j] != '-' && i==j){
+                    anySign++;
+                }
+            }
+        }
+        if (anySign!=field.length){
+            maxDiagonal=amountOfSigns;
+        }
+        amountOfSigns=0;
+        anySign=0;
+        System.out.println("maxDiagonal"+maxDiagonal);
+        for(int i=0; i<field.length;i++){
+            for(int j=0; j<field.length;j++){
+                if (i+j==field.length-1 && field[i][j]=='X'){
+                    amountOfSigns++;
+                }
+                if(field[i][j] != '-' && i+j==field.length-1){
+                    anySign++;
+                }
+            }
+        }
+        if (anySign!=field.length){
+            maxPobochDiagonal=amountOfSigns;
+        }
+        System.out.println("maxPobochDiagonal"+maxPobochDiagonal);
+        if(maxLine>=maxColumn && maxLine>=maxDiagonal && maxLine>=maxPobochDiagonal){
+            System.out.println(numberOfPlaceLine);
+            for(int i=0; i<field.length;i++){
+                if(field[numberOfPlaceLine][i] == '-'){
+                    x = numberOfPlaceLine;
+                    y = i;
+                }
+            }
+            System.out.println("1");
+        }
+
+        else if(maxColumn>=maxLine && maxColumn>=maxDiagonal && maxColumn>=maxPobochDiagonal){
+            System.out.println(numberOfPlaceColumn);
+            for(int i=0; i<field.length;i++){
+                if(field[i][numberOfPlaceColumn] == '-'){
+                    x = i;
+                    y = numberOfPlaceColumn;
+                }
+            }
+            System.out.println("2");
+        }
+
+        else if (maxDiagonal>=maxLine && maxDiagonal>=maxColumn && maxDiagonal>=maxPobochDiagonal){
+            for(int i=0; i<field.length;i++){
+                for(int j=0; j<field.length;j++){
+                    if(i==j && field[i][j]=='-'){
+                        x = i;
+                        y = j;
+                        System.out.println(x + " " + y);
+                    }
+                }
+            }
+            System.out.println("3");
+        }
+
+        else if(maxPobochDiagonal>=maxLine && maxPobochDiagonal>=maxColumn && maxPobochDiagonal>=maxDiagonal){
+            for(int i=0; i<field.length;i++){
+                for(int j=0; j<field.length;j++){
+                    if((i+j==field.length-1) && (field[i][j] == '-')){
+                        x = i;
+                        y = j;
+                        System.out.println(x + " " + y);
+                    }
+                }
+            }
+            System.out.println("4");
+        }
+
+       else{
         do {
             x = random.nextInt(field.length);
             y = random.nextInt(field.length);
         }while (field[x][y] != '-');
+            System.out.println("5");
+       }
         field[x][y]='O';
     }
 
